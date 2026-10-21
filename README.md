@@ -36,10 +36,10 @@ LEBLEKit 是基于 CoreBluetooth 的 Swift 低功耗蓝牙（BLE）库，使用 
    https://github.com/leelaxs/LeeBLEKit.git
    ```
 
-2. 将依赖规则设为 **Branch**，填写 `main`。
+2. 将依赖规则设为 **Up to Next Major Version**，最低版本填写 `0.1.0`。
 3. 添加包后，选择 **LEBLEKit** 库产品，并关联到应用目标。
 
-当前尚未发布版本标签，请使用 `main` 分支。私有仓库需要在 Xcode 中配置具有仓库读取权限的 GitHub 账号。
+当前版本标签为 `0.1.0`。私有仓库需要在 Xcode 中配置具有仓库读取权限的 GitHub 账号。
 
 ### 在 Package.swift 中声明远程依赖
 
@@ -58,7 +58,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/leelaxs/LeeBLEKit.git",
-            branch: "main"
+            from: "0.1.0"
         )
     ],
     targets: [
