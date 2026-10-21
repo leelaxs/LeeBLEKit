@@ -1,0 +1,44 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:LEBLEKitDemo}",
+            "name": "Debug LEBLEKitDemo",
+            "target": "LEBLEKitDemo",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug LEBLEKitDemo"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:LEBLEKitDemo}",
+            "name": "Release LEBLEKitDemo",
+            "target": "LEBLEKitDemo",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release LEBLEKitDemo"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:LEBLEKitDemo}",
+            "name": "Debug LEBLEKitDemo",
+            "target": "LEBLEKitDemo",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug LEBLEKitDemo"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:LEBLEKitDemo}",
+            "name": "Release LEBLEKitDemo",
+            "target": "LEBLEKitDemo",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release LEBLEKitDemo"
+        }
+    ]
+}
