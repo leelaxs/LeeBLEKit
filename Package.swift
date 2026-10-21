@@ -9,15 +9,10 @@ let package = Package(
         .macOS(.v10_15)
     ],
     products: [
-        .library(name: "LEBLEKit", targets: ["LEBLEKit"]),
-        .executable(name: "LEBLEKitDemo", targets: ["LEBLEKitDemo"])
+        .library(name: "LEBLEKit", targets: ["LEBLEKit"])
     ],
     targets: [
         .target(name: "LEBLEKit"),
-        .executableTarget(
-            name: "LEBLEKitDemo",
-            dependencies: ["LEBLEKit"]
-        ),
         .testTarget(
             name: "LEBLEKitTests",
             dependencies: ["LEBLEKit"]

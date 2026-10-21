@@ -26,7 +26,7 @@ LEBLEKit 是基于 CoreBluetooth 的 Swift 低功耗蓝牙（BLE）库，使用 
 
 ## 安装与集成
 
-仓库根目录是可直接引用的 Swift Package，提供 `LEBLEKit` 库产品，以及用于本地调试的 `LEBLEKitDemo` 命令行示例。
+仓库根目录是可直接引用的 Swift Package，提供 `LEBLEKit` 库产品。
 
 ### 在 Xcode 中通过 GitHub 地址添加
 
@@ -233,12 +233,6 @@ func startPeripheral() async throws -> LEPeripheralManager {
 # 编译库
 swift build --target LEBLEKit
 
-# 编译 macOS 命令行 Demo
-swift build --product LEBLEKitDemo
-
-# 运行命令行 Demo，会使用本机蓝牙进行扫描
-swift run LEBLEKitDemo
-
 # 运行库的单元测试
 swift test
 ```
@@ -252,10 +246,8 @@ iOS 示例位于 `iOS/LEBLEKitDemo.xcodeproj`，可在 Xcode 中打开，配置�
 ```text
 LeeBLEKit/
 ├── README.md                      # 项目说明
-├── Package.swift                  # 库、命令行 Demo 和测试的统一包定义
-├── Sources/
-│   ├── LEBLEKit/                  # 蓝牙库源码
-│   └── LEBLEKitDemo/              # macOS 命令行 Demo
+├── Package.swift                  # 库与测试的统一包定义
+├── Sources/LEBLEKit/              # 蓝牙库源码
 ├── Tests/LEBLEKitTests/            # 单元测试
 ├── LEBLEKit.podspec                # CocoaPods 配置草稿
 └── iOS/                           # iOS 示例工程与源码
