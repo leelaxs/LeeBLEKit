@@ -1,23 +1,26 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.9
 
 import PackageDescription
 
 let package = Package(
-    name: "LEBLEKitDemo",
+    name: "LEBLEKit",
     platforms: [
-        .macOS(.v10_15),
-        .iOS(.v13)
+        .iOS(.v13),
+        .macOS(.v10_15)
     ],
-    dependencies: [
-        .package(path: "LEBLEKit")
+    products: [
+        .library(name: "LEBLEKit", targets: ["LEBLEKit"]),
+        .executable(name: "LEBLEKitDemo", targets: ["LEBLEKitDemo"])
     ],
     targets: [
+        .target(name: "LEBLEKit"),
         .executableTarget(
             name: "LEBLEKitDemo",
-            dependencies: [
-                .product(name: "LEBLEKit", package: "LEBLEKit")
-            ],
-            path: "Sources/LEBLEKitDemo"
+            dependencies: ["LEBLEKit"]
+        ),
+        .testTarget(
+            name: "LEBLEKitTests",
+            dependencies: ["LEBLEKit"]
         )
     ]
 )

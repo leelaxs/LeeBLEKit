@@ -17,7 +17,7 @@ LEBLEKit 是基于 CoreBluetooth 的 Swift 低功耗蓝牙（BLE）库，使用 
 
 | 项目 | 要求 |
 | --- | --- |
-| Swift 工具链 | 5.9 及以上，以库的 `Package.swift` 为准 |
+| Swift 工具链 | 5.9 及以上，以根目录的 `Package.swift` 为准 |
 | 库支持的平台 | iOS 13.0 及以上、macOS 10.15 及以上 |
 | iOS 示例工程 | 当前部署目标为 iOS 15.0 |
 | 蓝牙功能调试 | 支持 BLE 的设备，并开启蓝牙、授予应用蓝牙权限 |
@@ -26,28 +26,70 @@ LEBLEKit 是基于 CoreBluetooth 的 Swift 低功耗蓝牙（BLE）库，使用 
 
 ## 安装与集成
 
-当前仓库包含库和示例程序：根目录的 `Package.swift` 定义 macOS 命令行 Demo，可复用的库包位于 `LEBLEKit/` 子目录。建议克隆仓库后，将该子目录作为本地 Swift Package 接入。
+仓库根目录是可直接引用的 Swift Package，提供 `LEBLEKit` 库产品，以及用于本地调试的 `LEBLEKitDemo` 命令行示例。
+
+### 在 Xcode 中通过 GitHub 地址添加
+
+1. 打开 **File → Add Package Dependencies…**，输入仓库地址：
+
+   ```text
+   https://github.com/leelaxs/LeeBLEKit.git
+   ```
+
+2. 将依赖规则设为 **Branch**，填写 `main`。
+3. 添加包后，选择 **LEBLEKit** 库产品，并关联到应用目标。
+
+当前尚未发布版本标签，请使用 `main` 分支。私有仓库需要在 Xcode 中配置具有仓库读取权限的 GitHub 账号。
+
+### 在 Package.swift 中声明远程依赖
+
+以下示例可用于另一个 Swift Package；请将 `YourTarget` 替换为实际目标名称：
+
+```swift
+// swift-tools-version: 5.9
+import PackageDescription
+
+let package = Package(
+    name: "YourPackage",
+    platforms: [
+        .iOS(.v13),
+        .macOS(.v10_15)
+    ],
+    dependencies: [
+        .package(
+            url: "https://github.com/leelaxs/LeeBLEKit.git",
+            branch: "main"
+        )
+    ],
+    targets: [
+        .target(
+            name: "YourTarget",
+            dependencies: [
+                .product(name: "LEBLEKit", package: "LeeBLEKit")
+            ]
+        )
+    ]
+)
+```
+
+这里的 `package: "LeeBLEKit"` 对应 GitHub 仓库名，产品与导入模块名均为 `LEBLEKit`。在应用代码中使用：
+
+```swift
+import LEBLEKit
+```
+
+Swift Package 的产品与依赖配置可参考 [SwiftPM 官方文档](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html)。
+
+### 本地开发与迁移
+
+需要修改库源码或运行示例时，可克隆仓库：
 
 ```bash
 git clone https://github.com/leelaxs/LeeBLEKit.git
 cd LeeBLEKit
 ```
 
-在 Xcode 中添加本地 Swift Package，选择克隆目录下的 `LEBLEKit/`，再将 `LEBLEKit` 库产品添加到应用目标。代码中使用：
-
-```swift
-import LEBLEKit
-```
-
-如果另一个 Swift Package 与本仓库位于同一父目录，可在其 `Package.swift` 中配置依赖和目标：
-
-```swift
-// 添加到 Package 的 dependencies 数组
-.package(path: "../LeeBLEKit/LEBLEKit")
-
-// 添加到使用蓝牙库的 target 的 dependencies 数组
-.product(name: "LEBLEKit", package: "LEBLEKit")
-```
+在 Xcode 中添加本地 Swift Package 时，选择仓库根目录。已有本地集成需将原来的 `LeeBLEKit/LEBLEKit` 子目录引用改为 `LeeBLEKit` 根目录，随后重新解析依赖；`import LEBLEKit` 和公共 API 的用法保持不变。
 
 应用需配置蓝牙权限说明。例如，本仓库 iOS Demo 已在 Xcode 构建设置中配置 `NSBluetoothAlwaysUsageDescription`；接入自己的应用时，请提供符合实际用途的说明文字。
 
@@ -188,17 +230,20 @@ func startPeripheral() async throws -> LEPeripheralManager {
 在仓库根目录执行：
 
 ```bash
+# 编译库
+swift build --target LEBLEKit
+
 # 编译 macOS 命令行 Demo
-swift build
+swift build --product LEBLEKitDemo
 
 # 运行命令行 Demo，会使用本机蓝牙进行扫描
 swift run LEBLEKitDemo
 
 # 运行库的单元测试
-swift test --package-path LEBLEKit
+swift test
 ```
 
-iOS 示例位于 `iOS/LEBLEKitDemo.xcodeproj`，可在 Xcode 中打开，配置开发团队后使用真机调试。示例包含中心设备与外设模式界面，本地包引用已指向 `../LEBLEKit`。
+iOS 示例位于 `iOS/LEBLEKitDemo.xcodeproj`，可在 Xcode 中打开，配置开发团队后使用真机调试。示例包含中心设备与外设模式界面，其本地包引用 `..` 指向仓库根目录，便于同步调试库源码。
 
 单元测试覆盖扫描规则、就绪状态与超时、连接读写与取消、分包、可靠传输、外设请求处理及数据工具。测试中的传输替身用于验证逻辑；实际设备的扫描、连接与通信仍需真机验证。
 
@@ -207,16 +252,13 @@ iOS 示例位于 `iOS/LEBLEKitDemo.xcodeproj`，可在 Xcode 中打开，配置�
 ```text
 LeeBLEKit/
 ├── README.md                      # 项目说明
-├── Package.swift                  # macOS 命令行 Demo 的包定义
-├── Sources/LEBLEKitDemo/           # 命令行 Demo
-├── LEBLEKit/
-│   ├── Package.swift              # 蓝牙库的包定义
-│   ├── Sources/LEBLEKit/           # 蓝牙库源码
-│   ├── Tests/LEBLEKitTests/        # 单元测试
-│   └── LEBLEKit.podspec            # CocoaPods 配置草稿
+├── Package.swift                  # 库、命令行 Demo 和测试的统一包定义
+├── Sources/
+│   ├── LEBLEKit/                  # 蓝牙库源码
+│   └── LEBLEKitDemo/              # macOS 命令行 Demo
+├── Tests/LEBLEKitTests/            # 单元测试
+├── LEBLEKit.podspec                # CocoaPods 配置草稿
 └── iOS/                           # iOS 示例工程与源码
 ```
 
-`LEBLEKit.podspec` 中的仓库地址和作者信息仍为占位配置，使用前需补全。当前安装说明采用本地 Swift Package 方式。
-
-`docs/`、`.vscode/`、构建缓存与 Xcode 个人配置通过 `.gitignore` 保留在本地，不纳入后续提交。
+`LEBLEKit.podspec` 中的仓库地址和作者信息仍为占位配置，使用前需补全。当前推荐通过 Swift Package Manager 集成。

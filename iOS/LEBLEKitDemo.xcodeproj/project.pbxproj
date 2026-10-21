@@ -131,7 +131,7 @@
 			);
 			mainGroup = 00000040;
 			packageReferences = (
-				050A9A223009CB9E00592141 /* XCLocalSwiftPackageReference "../LEBLEKit" */,
+				050A9A223009CB9E00592141 /* XCLocalSwiftPackageReference ".." */,
 			);
 			productRefGroup = 00000042 /* Products */;
 			projectDirPath = "";
@@ -366,16 +366,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		050A9A223009CB9E00592141 /* XCLocalSwiftPackageReference "../LEBLEKit" */ = {
+		050A9A223009CB9E00592141 /* XCLocalSwiftPackageReference ".." */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../LEBLEKit;
+			relativePath = ..;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		050A979F3009BD5B00592141 /* LEBLEKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 050A9A223009CB9E00592141 /* XCLocalSwiftPackageReference "../LEBLEKit" */;
+			package = 050A9A223009CB9E00592141 /* XCLocalSwiftPackageReference ".." */;
 			productName = LEBLEKit;
 		};
 /* End XCSwiftPackageProductDependency section */
